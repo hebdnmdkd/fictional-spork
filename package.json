@@ -1,0 +1,12 @@
+{
+  "name": "vmeste-watch-party",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Совместный просмотр YouTube с синхронизацией и реакциями",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
