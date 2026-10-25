@@ -64,6 +64,7 @@
   let lastTickAt = 0;
   let toastTimer = null;
   let apiLoadFailedTimer = null;
+  let playerReadyTimer = null;
 
   $('#room-id').textContent = roomId;
   $('#display-name').value = displayName;
@@ -227,6 +228,7 @@
         events: {
           onReady: () => {
             playerReady = true;
+            clearTimeout(playerReadyTimer);
             $('#stage-loading').classList.add('hidden');
             const queued = pendingPacket;
             pendingPacket = null;
@@ -235,6 +237,7 @@
           },
           onStateChange: onPlayerStateChange,
           onError: (event) => {
+            clearTimeout(playerReadyTimer);
             const messages = {
               2: 'Ссылка на видео некорректна. Проверь её и попробуй ещё раз.',
               5: 'Не удалось запустить HTML5-плеер YouTube.',
@@ -246,6 +249,11 @@
           },
         },
       });
+      playerReadyTimer = setTimeout(() => {
+        if (!playerReady && currentVideoId) {
+          setStageError('Плеер YouTube не ответил. Обнови страницу и попробуй ещё раз; проверь, что видео можно встраивать.');
+        }
+      }, 15_000);
       return;
     }
     if (!playerReady) {
@@ -272,6 +280,11 @@
   function onPlayerStateChange(event) {
     const state = event.data;
     const now = Date.now();
+    // A YouTube state event proves the iframe is alive; don't leave the loading veil over it.
+    if ([0, 1, 2, 3, 5].includes(state)) {
+      clearTimeout(playerReadyTimer);
+      $('#stage-loading').classList.add('hidden');
+    }
     if (expectedRemoteState) {
       if (now <= expectedRemoteState.expiresAt && state === expectedRemoteState.state) {
         expectedRemoteState = null;
