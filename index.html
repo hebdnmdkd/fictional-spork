@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101018">
+  <meta name="description" content="Смотрите YouTube вместе с другом и отправляйте быстрые реакции.">
+  <title>Вместе — смотреть YouTube вместе</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Вместе — главная">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none">
+            <rect x="3" y="5" width="24" height="28" rx="9" fill="url(#brandA)" />
+            <rect x="13" y="7" width="24" height="28" rx="9" fill="url(#brandB)" fill-opacity=".94" />
+            <path d="M22 15.5v11l8-5.5-8-5.5Z" fill="#11121B" />
+            <defs>
+              <linearGradient id="brandA" x1="3" y1="5" x2="27" y2="33" gradientUnits="userSpaceOnUse"><stop stop-color="#C5A7FF"/><stop offset="1" stop-color="#8D6AFF"/></linearGradient>
+              <linearGradient id="brandB" x1="13" y1="7" x2="37" y2="35" gradientUnits="userSpaceOnUse"><stop stop-color="#FFE0A5"/><stop offset="1" stop-color="#FF9BBD"/></linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span class="brand-name">вместе<span class="brand-period">.</span></span>
+      </a>
+
+      <div class="topbar-right">
+        <div class="connection-pill" id="connection-pill" title="Статус комнаты">
+          <span class="connection-dot" id="connection-dot"></span>
+          <span id="connection-text">Подключаем комнату</span>
+        </div>
+        <button class="button button-invite" id="copy-invite" type="button">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M11.7 8.3a3 3 0 0 0-4.24 0l-2.1 2.1a3 3 0 0 0 4.25 4.25l1.05-1.06M8.3 11.7a3 3 0 0 0 4.24 0l2.1-2.1a3 3 0 0 0-4.25-4.25l-1.05 1.06"/></svg>
+          <span>Пригласить друга</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero-row">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-spark"></span> ВАША МАЛЕНЬКАЯ WATCH PARTY</div>
+          <h1>Видео лучше <span>вместе.</span></h1>
+          <p>Вставьте ссылку на YouTube, позовите друга — и смотрите синхронно. Реакции уже готовы.</p>
+        </div>
+        <div class="hero-note">
+          <span class="hero-note-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3.5v3M12 17.5v3M3.5 12h3m11 0h3M5.99 5.99l2.12 2.12m7.78 7.78 2.12 2.12m0-12.02-2.12 2.12m-7.78 7.78-2.12 2.12"/><circle cx="12" cy="12" r="4.1"/></svg>
+          </span>
+          <span><strong>Одна комната</strong><small>один и тот же момент</small></span>
+        </div>
+      </section>
+
+      <div class="layout-grid">
+        <section class="main-column" aria-label="Совместный просмотр">
+          <div class="watch-card">
+            <div class="video-stage" id="video-stage">
+              <div class="stage-topline">
+                <div class="stage-label"><span class="stage-label-dot"></span><span id="stage-label-text">КОМНАТА ГОТОВА</span></div>
+                <div class="stage-synced"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.2 8.1 5.7 11.4 13.8 3.7"/></svg> СИНХРОННО</div>
+              </div>
+
+              <div id="player-host" class="player-host" aria-label="Плеер YouTube"></div>
+              <div id="empty-state" class="empty-state">
+                <div class="empty-art" aria-hidden="true">
+                  <div class="art-orbit orbit-one"></div>
+                  <div class="art-orbit orbit-two"></div>
+                  <div class="art-card art-card-back"><span class="art-card-line"></span><span class="art-card-line short"></span></div>
+                  <div class="art-card art-card-front"><span class="art-play"><svg viewBox="0 0 24 24"><path d="m9 6 10 6-10 6V6Z"/></svg></span></div>
+                  <span class="art-spark spark-a">✦</span><span class="art-spark spark-b">✧</span>
+                </div>
+                <div class="empty-copy">
+                  <span class="empty-kicker">ПЕРВЫЙ ШАГ — ЗА ТОБОЙ</span>
+                  <h2>Что будем смотреть?</h2>
+                  <p>Добавь YouTube-видео — оно появится и у друга в этой комнате.</p>
+                </div>
+              </div>
+              <div id="stage-loading" class="stage-message hidden" aria-live="polite">
+                <span class="loading-spinner"></span><span>Подключаем YouTube-плеер…</span>
+              </div>
+              <div id="stage-error" class="stage-message stage-error hidden" aria-live="polite"></div>
+              <div id="reaction-floats" class="reaction-floats" aria-hidden="true"></div>
+            </div>
+
+            <div class="video-meta-row">
+              <div class="video-meta-left">
+                <span class="youtube-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z"/></svg></span>
+                <div class="video-meta-text">
+                  <span class="video-status-label" id="watch-status">ГОТОВ К ПРОСМОТРУ</span>
+                  <strong id="video-title">Пока ничего не играет</strong>
+                </div>
+              </div>
+              <div class="playback-chip" id="playback-chip"><span class="playback-chip-dot"></span><span id="playback-label">Ждём первое видео</span></div>
+            </div>
+
+            <form class="url-form" id="video-form">
+              <label class="url-input-wrap" for="youtube-url">
+                <svg class="url-link-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M8.1 11.9a3 3 0 0 0 4.24 0l2.1-2.1a3 3 0 0 0-4.25-4.25L9.14 6.6M11.9 8.1a3 3 0 0 0-4.24 0l-2.1 2.1a3 3 0 0 0 4.25 4.25l1.05-1.06"/></svg>
+                <input id="youtube-url" type="text" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" placeholder="Вставь ссылку на видео YouTube…" aria-label="Ссылка на YouTube-видео">
+                <span class="url-shortcut">YOUTUBE</span>
+              </label>
+              <button class="button button-watch" type="submit"><span>Смотреть вместе</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M10 5l5 5-5 5"/></svg></button>
+            </form>
+            <div class="form-footnote"><span class="form-footnote-dot"></span> Подойдут youtube.com, youtu.be и Shorts-ссылки</div>
+          </div>
+
+          <section class="reactions-section" aria-labelledby="reactions-heading">
+            <div class="section-heading">
+              <div><span class="section-kicker">НЕ МОЛЧИ ВО ВРЕМЯ ВИДЕО</span><h2 id="reactions-heading">Быстрые реакции</h2></div>
+              <span class="section-hint">Нажми — друг увидит сразу <span aria-hidden="true">↗</span></span>
+            </div>
+            <div class="reaction-grid">
+              <button class="reaction-button reaction-poop" type="button" data-reaction="poop" aria-label="Отправить какашку" title="Какашка">
+                <span class="reaction-button-icon">💩</span><span class="reaction-button-label">Какашка</span><span class="reaction-button-arrow">↗</span>
+              </button>
+              <button class="reaction-button reaction-money" type="button" data-reaction="money" aria-label="Отправить деньги" title="Деньги">
+                <span class="reaction-button-icon">💸</span><span class="reaction-button-label">Деньги</span><span class="reaction-button-arrow">↗</span>
+              </button>
+              <button class="reaction-button reaction-paramecium" type="button" data-reaction="paramecium" aria-label="Отправить инфузорию-туфельку" title="Инфузория-туфелька">
+                <span class="reaction-button-icon paramecium-button-icon" aria-hidden="true">
+                  <svg viewBox="0 0 48 40" fill="none"><path d="M8.4 22.8C8.4 14.7 15.6 8 25 8c7.9 0 14.1 4.4 14.1 10.7 0 7.1-7.5 13.2-16.2 13.2-8 0-14.5-3.2-14.5-9.1Z" fill="#88F2D2" stroke="#D2FFF3" stroke-width="1.4"/><path d="M9 18 4.7 15M12.1 13.1 9.5 9M17.2 9.4 16 5M23.3 8.1V3.7M29.2 8.7 31 4.5M34.2 11.3l3.1-3.2M38 16l4.2-1.7M38.9 22l4.3.7M35.7 28l3.4 2.5M30 31l1 4.2M23 32v4M16.7 30l-2.1 3.5M11.2 26.4l-4 1.6" stroke="#B3FFE9" stroke-width="1.4" stroke-linecap="round"/><circle cx="18" cy="18" r="2" fill="#3B9D8B"/><circle cx="28.5" cy="23.5" r="1.7" fill="#3B9D8B"/><path d="M20 25.5c2.1-2 4.2-2.7 6.4-2.2" stroke="#4DB59D" stroke-width="1.4" stroke-linecap="round"/></svg>
+                </span><span class="reaction-button-label">Инфузория</span><span class="reaction-button-arrow">↗</span>
+              </button>
+              <button class="reaction-button reaction-rose" type="button" data-reaction="rose" aria-label="Отправить розу" title="Роза">
+                <span class="reaction-button-icon">🌹</span><span class="reaction-button-label">Роза</span><span class="reaction-button-arrow">↗</span>
+              </button>
+            </div>
+          </section>
+        </section>
+
+        <aside class="side-column" aria-label="Комната и участники">
+          <section class="side-card room-card">
+            <div class="room-card-heading">
+              <div><span class="section-kicker">ВАША КОМНАТА</span><h2>Свои люди, свой экран</h2></div>
+              <div class="room-code"><span>ROOM</span><strong id="room-id">------</strong></div>
+            </div>
+            <div class="room-invite-box">
+              <div class="invite-avatars" aria-hidden="true"><span class="invite-avatar invite-avatar-one">В</span><span class="invite-avatar invite-avatar-two">+</span></div>
+              <p>Отправь другу ссылку — он сразу окажется здесь.</p>
+              <button class="button button-copy" type="button" id="copy-invite-side"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="6" width="9" height="11" rx="2"/><path d="M12 6V4.8A1.8 1.8 0 0 0 10.2 3H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg><span>Скопировать приглашение</span></button>
+            </div>
+            <div class="members-heading"><span>УЧАСТНИКИ</span><span class="member-count"><span class="online-indicator"></span><strong id="member-count">1</strong> в комнате</span></div>
+            <div class="member-list" id="member-list"></div>
+            <div class="friend-hint" id="friend-hint"><span class="friend-hint-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/><path d="M12 7.4v5.2m-2.6-2.6h5.2"/></svg></span><span><strong>Комната ждёт друга</strong><small>Скопируй приглашение и отправь ему</small></span></div>
+            <form class="name-form" id="name-form">
+              <label for="display-name">ТВОЁ ИМЯ В КОМНАТЕ</label>
+              <div class="name-input-row"><input id="display-name" type="text" maxlength="28" autocomplete="nickname" aria-label="Твоё имя в комнате"><button type="submit" aria-label="Сохранить имя" title="Сохранить имя"><svg viewBox="0 0 20 20"><path d="m4 10.5 4 4 8-9"/></svg></button></div>
+            </form>
+          </section>
+
+          <section class="side-card activity-card">
+            <div class="activity-heading"><div><span class="section-kicker">ЧТО ПРОИСХОДИТ</span><h2>Живая лента</h2></div><span class="live-tag"><span></span> LIVE</span></div>
+            <div class="activity-feed" id="activity-feed" aria-live="polite"><div class="feed-empty"><span class="feed-empty-icon" aria-hidden="true">✦</span><p>Реакции появятся здесь,<br>как только начнётся веселье.</p></div></div>
+            <div class="activity-foot"><span><span class="activity-foot-dot"></span> Обновляется мгновенно</span><span>♡</span></div>
+          </section>
+
+          <div class="sync-note"><span class="sync-note-icon" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M3 8V5.5A2.5 2.5 0 0 1 5.5 3h2M17 8V5.5A2.5 2.5 0 0 0 14.5 3h-2M3 12v2.5A2.5 2.5 0 0 0 5.5 17h2m9-5v2.5a2.5 2.5 0 0 1-2.5 2.5h-2"/><path d="M6.5 10h7"/></svg></span><span>Видео и реакции синхронизируются между вами. Скорость зависит от сети и самого YouTube.</span></div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="page-footer"><span>Сделано, чтобы быть рядом — даже если вы не рядом.</span><span class="footer-brand">ВМЕСТЕ <i>·</i> WATCH PARTY</span></footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
